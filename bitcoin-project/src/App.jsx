@@ -1,24 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 
 const App = () => {
+  const [value, setValue] = useState('100,000');
 
-  const price = '100,000';
+  // const price = '100,000';
+  const price = async () => {
+    const response = await fetch(
+      "https://api.coindesk.com/v1/bpi/currentprice.json"
+    );
 
-  const [value, setValue] = useState();
+    console.log(response);
 
-  const response = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json");
-
-  if (response.ok) {
-    let data = await response.json();
-    setValue(data);
-  }
+    if (response.ok) {
+      let data = await response.json();
+      setValue(data);
+    }
+  };
 
   return (
     <div>
       <h1>Bitcoin Price</h1>
-      <p>${price}</p>
+      <p>${value}</p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
